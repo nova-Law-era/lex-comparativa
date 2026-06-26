@@ -1,8 +1,6 @@
 // Vercel serverless function — keeps the Anthropic API key on the server.
 // The key is read from the ANTHROPIC_API_KEY environment variable and is
 // NEVER exposed to the browser. The client only sends { system, messages }.
-//
-// Model, max_tokens and tools are fixed here so visitors cannot change them.
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {
@@ -30,19 +28,10 @@ export default async function handler(req, res) {
         "anthropic-version": "2023-06-01",
       },
       body: JSON.stringify({
-        model: "claude-sonnet-4-20250514",
+        model: "claude-sonnet-4-6",
         max_tokens: 2000,
         system: typeof system === "string" ? system : "",
         messages,
-        tools: [
-          {
-            type: "web_search_20250305",
-            name: "web_search",
-            max_uses: 5,
-            // Optional: restrict to authoritative legal sources by uncommenting:
-            // allowed_domains: ["lex.uz", "eur-lex.europa.eu", "law.cornell.edu", "congress.gov", "govinfo.gov"],
-          },
-        ],
       }),
     });
 
